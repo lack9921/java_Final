@@ -120,6 +120,7 @@ import com.starmaze.ui.SimpleMenuContentSpec;
 import com.starmaze.ui.StunEffectRenderer;
 import com.starmaze.ui.StunEffectStyle;
 import com.starmaze.ui.StarField;
+import com.starmaze.ui.StarSprite;
 import com.starmaze.ui.TitleMenuContentRenderer;
 import com.starmaze.ui.TitleMenuContentSpec;
 import com.starmaze.ui.VisualConfig;
@@ -263,6 +264,7 @@ public final class StarMazeSmokeTest {
         verifyBoardLayerRendererCache();
         verifyBackgroundGridSpec();
         verifyBackgroundRenderer();
+        verifyStarSprite();
         verifyStarField();
         verifyPickupVisualStyle();
         verifyPickupRenderer();
@@ -1616,6 +1618,16 @@ public final class StarMazeSmokeTest {
         field.paint(graphics, 0, -5, 45);
         graphics.dispose();
         require(countNonTransparentPixels(image) > 20, "star field should draw stars and tolerate unsafe sizes");
+    }
+
+    private static void verifyStarSprite() {
+        StarSprite sprite = StarSprite.from(137, 83, 11, 160, 90, 45);
+        StarSprite unsafe = StarSprite.from(137, 83, 11, 0, -5, 45);
+        require(sprite.x() >= 0 && sprite.x() < 160, "star sprite x should stay inside safe width");
+        require(sprite.y() >= 0 && sprite.y() < 90, "star sprite y should stay inside safe height");
+        require(sprite.size() == 2, "star sprite should keep configured pixel size");
+        require(sprite.color().getAlpha() >= 15, "star sprite alpha should respect minimum alpha");
+        require(unsafe.x() == 0 && unsafe.y() == 0, "star sprite should tolerate unsafe sizes");
     }
 
     private static void verifyPickupRenderer() {

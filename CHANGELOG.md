@@ -2754,3 +2754,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 238
+
+- Added `StarSprite` to own individual star position, size, and alpha-colored paint calculation.
+- Slimmed `StarField` so it delegates per-star snapshot calculation before drawing each star pixel.
+- Added smoke coverage proving star sprites stay inside safe bounds, keep configured size, respect minimum alpha, and tolerate unsafe sizes.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
