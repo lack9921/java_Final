@@ -90,6 +90,7 @@ import com.starmaze.ui.MenuMouseController;
 import com.starmaze.ui.MenuOverlayDispatcher;
 import com.starmaze.ui.MenuOverlayMode;
 import com.starmaze.ui.MenuOverlayRenderer;
+import com.starmaze.ui.MenuOverlaySpec;
 import com.starmaze.ui.MenuPanel;
 import com.starmaze.ui.MenuText;
 import com.starmaze.ui.PickupRenderer;
@@ -222,6 +223,7 @@ public final class StarMazeSmokeTest {
         verifyMenuButtonGroupRenderer();
         verifyMenuChromeRenderer();
         verifyMenuOverlayMode();
+        verifyMenuOverlaySpec();
         verifyMenuOverlayDispatcher();
         verifyMenuOverlayRenderer();
         verifyHelpMenuContentRenderer();
@@ -1169,6 +1171,15 @@ public final class StarMazeSmokeTest {
         graphics.dispose();
         audio.shutdown();
         require(countVisibleSamplePixels(image) > 160, "menu overlay dispatcher should draw all visible overlays");
+    }
+
+    private static void verifyMenuOverlaySpec() {
+        for (MenuOverlayMode mode : MenuOverlayMode.values()) {
+            require(MenuOverlaySpec.forMode(mode).name().equals(mode.name()),
+                    "menu overlay spec should mirror overlay mode names");
+        }
+        require(MenuOverlaySpec.values().length == MenuOverlayMode.values().length,
+                "menu overlay spec should cover every overlay mode");
     }
 
     private static void verifyMenuOverlayRenderer() {

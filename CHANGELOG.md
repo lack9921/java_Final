@@ -2622,3 +2622,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 227
+
+- Added `MenuOverlaySpec` to own the mapping from overlay modes to concrete menu rendering calls.
+- Slimmed `MenuOverlayDispatcher` so it delegates overlay paint selection instead of keeping a direct switch over menu modes.
+- Added smoke coverage proving the overlay spec mirrors and covers every menu overlay mode.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
