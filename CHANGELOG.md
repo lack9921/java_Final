@@ -2634,3 +2634,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 228
+
+- Added `MenuOverlayStyle` to own per-overlay translucency settings for title, pause, help, settings, level-clear, and game-over screens.
+- Slimmed `MenuRenderer` so it delegates overlay alpha selection instead of carrying a row of inline alpha constants.
+- Added smoke coverage proving every overlay style mirrors an overlay mode and keeps a translucent alpha.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

@@ -13,15 +13,8 @@ public final class MenuRenderer {
     private final HelpMenuContentRenderer helpContentRenderer = new HelpMenuContentRenderer();
     private final ResultMenuContentRenderer resultContentRenderer = new ResultMenuContentRenderer();
 
-    private static final float TITLE_OVERLAY_ALPHA = 0.72f;
-    private static final float PAUSE_OVERLAY_ALPHA = 0.58f;
-    private static final float HELP_OVERLAY_ALPHA = 0.76f;
-    private static final float SETTINGS_OVERLAY_ALPHA = 0.74f;
-    private static final float LEVEL_CLEAR_OVERLAY_ALPHA = 0.62f;
-    private static final float GAME_OVER_OVERLAY_ALPHA = 0.68f;
-
     public void paintTitle(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, TITLE_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.TITLE.overlayAlpha());
         int centerX = MenuMetrics.centerX(width);
         int top = MenuMetrics.titleTop(height);
         titleContentRenderer.paint(g, state, centerX, top);
@@ -29,7 +22,7 @@ public final class MenuRenderer {
     }
 
     public void paintPause(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, PAUSE_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.PAUSED.overlayAlpha());
         MenuPanel panel = MenuMetrics.pausePanel(width, height);
         chromeRenderer.paintPanel(g, panel);
         simpleContentRenderer.paintPause(g, panel);
@@ -37,7 +30,7 @@ public final class MenuRenderer {
     }
 
     public void paintHelp(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, HELP_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.HELP.overlayAlpha());
         MenuPanel panel = MenuMetrics.helpPanel(width, height);
         chromeRenderer.paintPanel(g, panel);
         helpContentRenderer.paint(g, panel);
@@ -45,7 +38,7 @@ public final class MenuRenderer {
     }
 
     public void paintSettings(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, SETTINGS_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.SETTINGS.overlayAlpha());
         MenuPanel panel = MenuMetrics.settingsPanel(width, height);
         chromeRenderer.paintPanel(g, panel);
         simpleContentRenderer.paintSettings(g, panel);
@@ -53,7 +46,7 @@ public final class MenuRenderer {
     }
 
     public void paintLevelClear(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, LEVEL_CLEAR_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.LEVEL_CLEAR.overlayAlpha());
         MenuPanel panel = MenuMetrics.levelClearPanel(width, height);
         chromeRenderer.paintPanel(g, panel);
         resultContentRenderer.paintLevelClear(g, state, panel);
@@ -61,7 +54,7 @@ public final class MenuRenderer {
     }
 
     public void paintGameOver(Graphics2D g, GameState state, int width, int height, List<MenuButton> buttons) {
-        chromeRenderer.paintOverlay(g, width, height, GAME_OVER_OVERLAY_ALPHA);
+        chromeRenderer.paintOverlay(g, width, height, MenuOverlayStyle.GAME_OVER.overlayAlpha());
         MenuPanel panel = MenuMetrics.gameOverPanel(width, height);
         chromeRenderer.paintPanel(g, panel);
         resultContentRenderer.paintGameOver(g, state, panel);
