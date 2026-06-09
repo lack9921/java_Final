@@ -68,6 +68,7 @@ import com.starmaze.ui.HelpMenuContentSpec;
 import com.starmaze.ui.HudLayout;
 import com.starmaze.ui.HudMessageRenderer;
 import com.starmaze.ui.HudMessageSelector;
+import com.starmaze.ui.HudMeterGeometry;
 import com.starmaze.ui.HudMeterRenderer;
 import com.starmaze.ui.HudPanelRenderer;
 import com.starmaze.ui.HudPhaseColorSelector;
@@ -193,6 +194,7 @@ public final class StarMazeSmokeTest {
         verifyHudLayout();
         verifyHudMessageSelector();
         verifyHudPhaseColorSelector();
+        verifyHudMeterGeometry();
         verifyHudMeterRenderer();
         verifyHudRewindRenderer();
         verifyHudMessageRenderer();
@@ -745,6 +747,18 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, 24, 34, 160, 16, 60, 100, VisualConfig.CYAN, HudText.PHASE_LABEL);
         graphics.dispose();
         require(countVisibleSamplePixels(image) > 5, "HUD meter renderer should draw visible meter pixels");
+    }
+
+    private static void verifyHudMeterGeometry() {
+        HudMeterGeometry half = HudMeterGeometry.from(24, 34, 160, 16, 50, 100);
+        HudMeterGeometry over = HudMeterGeometry.from(24, 34, 160, 16, 120, 100);
+        HudMeterGeometry under = HudMeterGeometry.from(24, 34, 160, 16, -5, 100);
+        HudMeterGeometry zeroMax = HudMeterGeometry.from(24, 34, 160, 16, 50, 0);
+        require(half.trackX() == 58 && half.trackY() == 34, "HUD meter geometry should offset track after label");
+        require(half.fillW() == 80, "HUD meter geometry should scale fill width from value");
+        require(over.fillW() == 160, "HUD meter geometry should clamp overfilled values");
+        require(under.fillW() == 0, "HUD meter geometry should clamp negative values");
+        require(zeroMax.fillW() == 0, "HUD meter geometry should handle zero max safely");
     }
 
     private static void verifyHudRewindRenderer() {

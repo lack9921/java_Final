@@ -2694,3 +2694,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 233
+
+- Added `HudMeterGeometry` to own HUD meter track placement and clamped fill-width calculation.
+- Slimmed `HudMeterRenderer` so it delegates meter geometry and value scaling before drawing the label, track, fill, and stroke.
+- Added smoke coverage proving HUD meter geometry offsets the track, scales half values, clamps over/under values, and handles zero max safely.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
