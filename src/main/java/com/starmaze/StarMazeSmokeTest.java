@@ -31,6 +31,7 @@ import com.starmaze.model.VisualEffectType;
 import com.starmaze.ui.ActiveEffect;
 import com.starmaze.ui.ActiveEffectFactory;
 import com.starmaze.ui.ActiveEffectList;
+import com.starmaze.ui.BackgroundGridSpec;
 import com.starmaze.ui.BoardMetrics;
 import com.starmaze.ui.BoardMetricsCalculator;
 import com.starmaze.ui.BoardFrameRenderer;
@@ -260,6 +261,7 @@ public final class StarMazeSmokeTest {
         verifyBoardRiftRenderer();
         verifyBoardRendererBoundaries();
         verifyBoardLayerRendererCache();
+        verifyBackgroundGridSpec();
         verifyBackgroundRenderer();
         verifyStarField();
         verifyPickupVisualStyle();
@@ -1588,6 +1590,22 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, 420, 260, 37);
         graphics.dispose();
         require(countVisibleSamplePixels(image) > 400, "background renderer should draw gradient, stars, and grid");
+    }
+
+    private static void verifyBackgroundGridSpec() {
+        BackgroundGridSpec spec = BackgroundGridSpec.standard();
+        require(spec.spacing() == VisualConfig.BACKGROUND_GRID_SIZE,
+                "background grid spec should use configured grid spacing");
+        require(spec.strokeWidth() > 0f, "background grid stroke should be visible");
+        require(spec.color().getAlpha() > 0 && spec.color().getAlpha() < 255,
+                "background grid should stay translucent");
+        require(spec.verticalLines(VisualConfig.BACKGROUND_GRID_SIZE * 3 + 1).equals(List.of(
+                        0,
+                        VisualConfig.BACKGROUND_GRID_SIZE,
+                        VisualConfig.BACKGROUND_GRID_SIZE * 2,
+                        VisualConfig.BACKGROUND_GRID_SIZE * 3)),
+                "background grid should generate vertical line positions by spacing");
+        require(spec.horizontalLines(0).isEmpty(), "background grid should tolerate unsafe sizes");
     }
 
     private static void verifyStarField() {

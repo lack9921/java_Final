@@ -2742,3 +2742,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 237
+
+- Added `BackgroundGridSpec` to own background grid color, stroke width, spacing, and generated line positions.
+- Slimmed `BackgroundRenderer` so it delegates grid styling and line-position generation before drawing the background grid.
+- Added smoke coverage proving the grid spec uses configured spacing, stays translucent, generates positions by spacing, and tolerates unsafe sizes.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
