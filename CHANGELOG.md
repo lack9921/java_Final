@@ -2706,3 +2706,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 234
+
+- Added `HudRewindDot` to own rewind-charge dot geometry, filled-state selection, and fill-color choice.
+- Slimmed `HudRewindRenderer` so it delegates dot placement and filled/empty styling before drawing each charge indicator.
+- Added smoke coverage proving rewind dots keep expected offsets, spacing, size, filled-state behavior, and distinct filled/empty colors.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

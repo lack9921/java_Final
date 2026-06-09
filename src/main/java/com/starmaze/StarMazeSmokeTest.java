@@ -72,6 +72,7 @@ import com.starmaze.ui.HudMeterGeometry;
 import com.starmaze.ui.HudMeterRenderer;
 import com.starmaze.ui.HudPanelRenderer;
 import com.starmaze.ui.HudPhaseColorSelector;
+import com.starmaze.ui.HudRewindDot;
 import com.starmaze.ui.HudRewindRenderer;
 import com.starmaze.ui.HudRenderer;
 import com.starmaze.ui.HudStatsRenderer;
@@ -196,6 +197,7 @@ public final class StarMazeSmokeTest {
         verifyHudPhaseColorSelector();
         verifyHudMeterGeometry();
         verifyHudMeterRenderer();
+        verifyHudRewindDot();
         verifyHudRewindRenderer();
         verifyHudMessageRenderer();
         verifyHudStatsRenderer();
@@ -768,6 +770,17 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, 18, 42, 2);
         graphics.dispose();
         require(countVisibleSamplePixels(image) > 3, "HUD rewind renderer should draw visible charge dots");
+    }
+
+    private static void verifyHudRewindDot() {
+        HudRewindDot first = HudRewindDot.from(18, 42, 0, 2);
+        HudRewindDot third = HudRewindDot.from(18, 42, 2, 2);
+        require(first.x() == 56 && first.y() == 33, "HUD rewind dot should offset from label origin");
+        require(third.x() - first.x() == 40, "HUD rewind dots should keep configured spacing");
+        require(first.size() == third.size(), "HUD rewind dots should keep consistent size");
+        require(first.filled(), "HUD rewind dots below charge count should be filled");
+        require(!third.filled(), "HUD rewind dots at or above charge count should be empty");
+        require(!first.fillColor().equals(third.fillColor()), "filled and empty rewind dots should use different colors");
     }
 
     private static void verifyHudMessageRenderer() {
