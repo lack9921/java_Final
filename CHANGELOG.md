@@ -2814,3 +2814,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 243
+
+- Added `BoardStaticTileMapper` to own the static-cache tile substitution rule.
+- Slimmed `BoardStaticCacheRenderer` so it delegates rift-to-floor cache mapping before drawing static board tiles.
+- Added smoke coverage proving rifts cache as floor while floor, wall, and exit tiles remain unchanged.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

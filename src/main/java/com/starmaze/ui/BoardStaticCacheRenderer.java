@@ -16,8 +16,7 @@ public final class BoardStaticCacheRenderer {
         for (int y = 0; y < level.height(); y++) {
             for (int x = 0; x < level.width(); x++) {
                 TileType tile = level.tileAt(x, y);
-                tileRenderer.paint(g, x, y, tile == TileType.RIFT ? TileType.FLOOR : tile, 0, 0,
-                        metrics.tileSize(), 0);
+                tileRenderer.paint(g, x, y, BoardStaticTileMapper.cacheTile(tile), 0, 0, metrics.tileSize(), 0);
             }
         }
         g.dispose();

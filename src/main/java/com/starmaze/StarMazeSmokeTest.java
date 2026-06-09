@@ -41,6 +41,7 @@ import com.starmaze.ui.BoardRenderer;
 import com.starmaze.ui.BoardRiftRenderer;
 import com.starmaze.ui.BoardRiftVisual;
 import com.starmaze.ui.BoardStaticCacheRenderer;
+import com.starmaze.ui.BoardStaticTileMapper;
 import com.starmaze.ui.BoardTileRenderer;
 import com.starmaze.ui.BoardWallVisual;
 import com.starmaze.ui.BackgroundRenderer;
@@ -263,6 +264,7 @@ public final class StarMazeSmokeTest {
         verifyBoardFloorVisual();
         verifyBoardWallVisual();
         verifyBoardTileRenderer();
+        verifyBoardStaticTileMapper();
         verifyBoardStaticCacheRenderer();
         verifyBoardRiftVisual();
         verifyBoardRiftRenderer();
@@ -1552,6 +1554,17 @@ public final class StarMazeSmokeTest {
         require(cache.getHeight() == metrics.height(), "board static cache renderer should match metrics height");
         require(countNonTransparentPixels(cache) > 1_000,
                 "board static cache renderer should draw static floor and wall tiles");
+    }
+
+    private static void verifyBoardStaticTileMapper() {
+        require(BoardStaticTileMapper.cacheTile(TileType.RIFT) == TileType.FLOOR,
+                "board static cache should draw floor under dynamic rifts");
+        require(BoardStaticTileMapper.cacheTile(TileType.WALL) == TileType.WALL,
+                "board static cache should preserve wall tiles");
+        require(BoardStaticTileMapper.cacheTile(TileType.EXIT) == TileType.EXIT,
+                "board static cache should preserve exit tiles");
+        require(BoardStaticTileMapper.cacheTile(TileType.FLOOR) == TileType.FLOOR,
+                "board static cache should preserve floor tiles");
     }
 
     private static void verifyBoardRiftRenderer() {
