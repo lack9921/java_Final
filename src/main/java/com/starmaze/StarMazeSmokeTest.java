@@ -115,6 +115,7 @@ import com.starmaze.ui.StunEffectRenderer;
 import com.starmaze.ui.StunEffectStyle;
 import com.starmaze.ui.StarField;
 import com.starmaze.ui.TitleMenuContentRenderer;
+import com.starmaze.ui.TitleMenuContentSpec;
 import com.starmaze.ui.VisualConfig;
 
 import java.nio.file.Files;
@@ -235,6 +236,7 @@ public final class StarMazeSmokeTest {
         verifyHelpMenuContentRenderer();
         verifyResultMenuContentSpec();
         verifyResultMenuContentRenderer();
+        verifyTitleMenuContentSpec();
         verifyTitleMenuContentRenderer();
         verifySimpleMenuContentSpec();
         verifySimpleMenuContentRenderer();
@@ -1299,6 +1301,26 @@ public final class StarMazeSmokeTest {
         graphics.dispose();
         audio.shutdown();
         require(countVisibleSamplePixels(image) > 50, "title menu content renderer should draw visible title text");
+    }
+
+    private static void verifyTitleMenuContentSpec() {
+        SaveData saveData = SaveData.loadFrom(tempSavePath());
+        SoundEngine audio = new SoundEngine(false);
+        GameState state = new GameState(saveData, audio);
+        require(TitleMenuContentSpec.STANDARD.lines().size() == 4,
+                "title menu content spec should keep title, subtitle, hint, and stats lines");
+        require(TitleMenuContentSpec.STANDARD.lines().get(0).text(state).equals(MenuText.TITLE),
+                "title menu first line should use title text");
+        require(TitleMenuContentSpec.STANDARD.lines().get(1).text(state).equals(MenuText.SUBTITLE),
+                "title menu second line should use subtitle text");
+        require(TitleMenuContentSpec.STANDARD.lines().get(2).text(state).equals(MenuText.TITLE_HINT),
+                "title menu third line should use hint text");
+        require(TitleMenuContentSpec.STANDARD.lines().get(3).text(state).contains(MenuText.HIGH_SCORE),
+                "title menu stats line should include high-score label");
+        require(TitleMenuContentSpec.STANDARD.lines().get(0).baselineOffset()
+                        < TitleMenuContentSpec.STANDARD.lines().get(1).baselineOffset(),
+                "title menu subtitle should sit below title");
+        audio.shutdown();
     }
 
     private static void verifySimpleMenuContentRenderer() {

@@ -2682,3 +2682,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 232
+
+- Added `TitleMenuContentLine` and `TitleMenuContentSpec` to own title-screen text, dynamic stats text, colors, font styles, font sizes, and baseline offsets.
+- Slimmed `TitleMenuContentRenderer` so it iterates the title content spec instead of hard-coding title, subtitle, hint, and stats lines inline.
+- Added smoke coverage proving the title spec keeps four lines, expected title/subtitle/hint text, stats text, and vertical ordering.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
