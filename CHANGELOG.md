@@ -2658,3 +2658,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 230
+
+- Added `ResultMenuContentLine` and `ResultMenuContentSpec` to own result-screen title, summary, rank, and score line configuration.
+- Slimmed `ResultMenuContentRenderer` so it iterates result specs instead of hard-coding level-clear and game-over lines inline.
+- Added smoke coverage proving level-clear and game-over result specs keep expected line counts, titles, score text, and vertical ordering.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

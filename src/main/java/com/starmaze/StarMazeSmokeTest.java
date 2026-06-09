@@ -102,6 +102,7 @@ import com.starmaze.ui.PlayerVisualStyle;
 import com.starmaze.ui.RenderQuality;
 import com.starmaze.ui.RenderClock;
 import com.starmaze.ui.ResultMenuContentRenderer;
+import com.starmaze.ui.ResultMenuContentSpec;
 import com.starmaze.ui.RingEffectRenderer;
 import com.starmaze.ui.RingEffectStyle;
 import com.starmaze.ui.ScreenShakeOffset;
@@ -230,6 +231,7 @@ public final class StarMazeSmokeTest {
         verifyMenuOverlayDispatcher();
         verifyMenuOverlayRenderer();
         verifyHelpMenuContentRenderer();
+        verifyResultMenuContentSpec();
         verifyResultMenuContentRenderer();
         verifyTitleMenuContentRenderer();
         verifySimpleMenuContentSpec();
@@ -1248,6 +1250,29 @@ public final class StarMazeSmokeTest {
         graphics.dispose();
         audio.shutdown();
         require(countVisibleSamplePixels(image) > 30, "result menu content renderer should draw visible result text");
+    }
+
+    private static void verifyResultMenuContentSpec() {
+        SaveData saveData = SaveData.loadFrom(tempSavePath());
+        SoundEngine audio = new SoundEngine(false);
+        GameState state = new GameState(saveData, audio);
+        state.startNewGame();
+        require(ResultMenuContentSpec.LEVEL_CLEAR.lines().size() == 3,
+                "level-clear result content should keep title, summary, and rank lines");
+        require(ResultMenuContentSpec.GAME_OVER.lines().size() == 3,
+                "game-over result content should keep title, message, and score lines");
+        require(ResultMenuContentSpec.LEVEL_CLEAR.lines().get(0).text(state).equals(MenuText.LEVEL_CLEAR_TITLE),
+                "level-clear result title should use level-clear text");
+        require(ResultMenuContentSpec.GAME_OVER.lines().get(0).text(state).equals(MenuText.GAME_OVER_TITLE),
+                "game-over result title should use game-over text");
+        require(ResultMenuContentSpec.LEVEL_CLEAR.lines().get(1).text(state).contains(String.valueOf(state.score())),
+                "level-clear result summary should include score");
+        require(ResultMenuContentSpec.GAME_OVER.lines().get(2).text(state).contains(String.valueOf(state.score())),
+                "game-over result score line should include score");
+        require(ResultMenuContentSpec.LEVEL_CLEAR.lines().get(0).baselineOffset()
+                        < ResultMenuContentSpec.LEVEL_CLEAR.lines().get(1).baselineOffset(),
+                "level-clear result summary should sit below title");
+        audio.shutdown();
     }
 
     private static void verifyTitleMenuContentRenderer() {
