@@ -75,7 +75,9 @@ import com.starmaze.ui.HudPhaseColorSelector;
 import com.starmaze.ui.HudRewindDot;
 import com.starmaze.ui.HudRewindRenderer;
 import com.starmaze.ui.HudRenderer;
+import com.starmaze.ui.HudStatItem;
 import com.starmaze.ui.HudStatsRenderer;
+import com.starmaze.ui.HudStatsSpec;
 import com.starmaze.ui.HudText;
 import com.starmaze.ui.InputActions;
 import com.starmaze.ui.InputController;
@@ -200,6 +202,7 @@ public final class StarMazeSmokeTest {
         verifyHudRewindDot();
         verifyHudRewindRenderer();
         verifyHudMessageRenderer();
+        verifyHudStatsSpec();
         verifyHudStatsRenderer();
         verifyHudPanelRenderer();
         verifyHudRendererComposition();
@@ -804,6 +807,27 @@ public final class StarMazeSmokeTest {
         graphics.dispose();
         audio.shutdown();
         require(countNonTransparentPixels(image) > 80, "HUD stats renderer should draw visible run stats text");
+    }
+
+    private static void verifyHudStatsSpec() {
+        SaveData saveData = SaveData.loadFrom(tempSavePath());
+        SoundEngine audio = new SoundEngine(false);
+        GameState state = new GameState(saveData, audio);
+        state.startNewGame();
+        HudStatItem title = HudStatsSpec.titleItem();
+        require(title.text(state).equals(HudText.TITLE), "HUD stats title item should use HUD title text");
+        require(HudStatsSpec.statItems().size() == 4, "HUD stats spec should keep level, score, high score, and crystal items");
+        require(HudStatsSpec.statTexts(state).get(0).contains(String.valueOf(state.levelIndex())),
+                "HUD stats level text should include level index");
+        require(HudStatsSpec.statTexts(state).get(1).contains(String.valueOf(state.score())),
+                "HUD stats score text should include score");
+        require(HudStatsSpec.statTexts(state).get(2).contains(String.valueOf(state.saveData().highScore())),
+                "HUD stats high-score text should include high score");
+        require(HudStatsSpec.statTexts(state).get(3).contains("/"),
+                "HUD stats crystal text should include collected/needed separator");
+        require(HudStatsSpec.statItems().get(0).x() < HudStatsSpec.statItems().get(1).x(),
+                "HUD stats spec should keep stats ordered from left to right");
+        audio.shutdown();
     }
 
     private static void verifyHudPanelRenderer() {

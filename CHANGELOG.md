@@ -2718,3 +2718,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 235
+
+- Added `HudStatItem` and `HudStatsSpec` to own HUD title/stat text providers, x positions, and font sizing.
+- Slimmed `HudStatsRenderer` so it iterates title and stat specs instead of hard-coding each HUD stat string and coordinate inline.
+- Added smoke coverage proving HUD stats keep level, score, high-score, and crystal text while preserving left-to-right ordering.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
