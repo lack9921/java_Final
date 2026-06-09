@@ -64,6 +64,7 @@ import com.starmaze.ui.GameSceneRenderer;
 import com.starmaze.ui.GameViewRenderer;
 import com.starmaze.ui.GameplayLayerRenderer;
 import com.starmaze.ui.HelpMenuContentRenderer;
+import com.starmaze.ui.HelpMenuContentSpec;
 import com.starmaze.ui.HudLayout;
 import com.starmaze.ui.HudMessageRenderer;
 import com.starmaze.ui.HudMessageSelector;
@@ -230,6 +231,7 @@ public final class StarMazeSmokeTest {
         verifyMenuOverlayStyle();
         verifyMenuOverlayDispatcher();
         verifyMenuOverlayRenderer();
+        verifyHelpMenuContentSpec();
         verifyHelpMenuContentRenderer();
         verifyResultMenuContentSpec();
         verifyResultMenuContentRenderer();
@@ -1233,6 +1235,17 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, new MenuPanel(40, 30, 560, 340));
         graphics.dispose();
         require(countVisibleSamplePixels(image) > 40, "help menu content renderer should draw visible help text");
+    }
+
+    private static void verifyHelpMenuContentSpec() {
+        HelpMenuContentSpec spec = HelpMenuContentSpec.standard();
+        require(spec.title().equals(MenuText.HELP_TITLE), "help menu content spec should use help title");
+        require(spec.lines().size() == MenuText.HELP_LINES.length, "help menu content spec should include every help line");
+        require(spec.lineBaseline(1) - spec.lineBaseline(0) == spec.lineGap(),
+                "help menu content spec should space help lines by configured gap");
+        require(spec.dotColor().getAlpha() > 0 && spec.dotColor().getAlpha() < 255,
+                "help menu content spec should use translucent dots");
+        require(spec.textXOffset() > spec.dotSize(), "help menu text should sit to the right of its dot");
     }
 
     private static void verifyResultMenuContentRenderer() {

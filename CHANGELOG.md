@@ -2670,3 +2670,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 231
+
+- Added `HelpMenuContentSpec` to own help-menu title text, help lines, colors, dot styling, offsets, and line spacing.
+- Slimmed `HelpMenuContentRenderer` so it follows the help content spec instead of carrying inline layout constants and line-loop math.
+- Added smoke coverage proving the help spec keeps every help line, configured line spacing, translucent dots, and text-to-dot positioning.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
