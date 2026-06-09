@@ -38,6 +38,7 @@ import com.starmaze.ui.BoardFrameRenderer;
 import com.starmaze.ui.BoardLayerRenderer;
 import com.starmaze.ui.BoardRenderer;
 import com.starmaze.ui.BoardRiftRenderer;
+import com.starmaze.ui.BoardRiftVisual;
 import com.starmaze.ui.BoardStaticCacheRenderer;
 import com.starmaze.ui.BoardTileRenderer;
 import com.starmaze.ui.BackgroundRenderer;
@@ -259,6 +260,7 @@ public final class StarMazeSmokeTest {
         verifyBoardFrameRenderer();
         verifyBoardTileRenderer();
         verifyBoardStaticCacheRenderer();
+        verifyBoardRiftVisual();
         verifyBoardRiftRenderer();
         verifyBoardRendererBoundaries();
         verifyBoardLayerRendererCache();
@@ -1536,6 +1538,17 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, level, metrics, 21);
         graphics.dispose();
         require(countNonTransparentPixels(image) > 40, "board rift renderer should draw visible dynamic rift tiles");
+    }
+
+    private static void verifyBoardRiftVisual() {
+        BoardRiftVisual visual = BoardRiftVisual.from(1, 2, 40, 17);
+        BoardRiftVisual otherTick = BoardRiftVisual.from(1, 2, 40, 24);
+        require(visual.ovalInset() == 8, "board rift visual should scale oval inset from tile size");
+        require(visual.ovalSize() == 24, "board rift visual should scale oval size from tile size");
+        require(visual.strokeColor().getAlpha() > 0 && visual.strokeColor().getAlpha() <= 255,
+                "board rift visual alpha should stay visible and valid");
+        require(visual.strokeColor().getAlpha() != otherTick.strokeColor().getAlpha(),
+                "board rift visual alpha should pulse with tick");
     }
 
     private static void verifyBoardRendererBoundaries() {

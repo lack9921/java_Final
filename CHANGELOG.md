@@ -2766,3 +2766,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 239
+
+- Added `BoardRiftVisual` to own rift tile pulse alpha, oval inset, and oval size calculation.
+- Slimmed `BoardTileRenderer` so it delegates rift animation styling before drawing rift ovals and diagonals.
+- Added smoke coverage proving rift visuals scale with tile size and pulse alpha over time.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
