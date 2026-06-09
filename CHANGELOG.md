@@ -2826,3 +2826,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 244
+
+- Added `BoardCacheKey` to own static-board cache identity for the current level instance and board metrics.
+- Slimmed `BoardLayerRenderer` so it delegates cache-reuse checks before deciding whether to rebuild the static board cache.
+- Added smoke coverage proving cache keys match unchanged inputs while rejecting changed metrics and different level instances.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

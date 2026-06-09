@@ -32,6 +32,7 @@ import com.starmaze.ui.ActiveEffect;
 import com.starmaze.ui.ActiveEffectFactory;
 import com.starmaze.ui.ActiveEffectList;
 import com.starmaze.ui.BackgroundGridSpec;
+import com.starmaze.ui.BoardCacheKey;
 import com.starmaze.ui.BoardMetrics;
 import com.starmaze.ui.BoardMetricsCalculator;
 import com.starmaze.ui.BoardFloorVisual;
@@ -269,6 +270,7 @@ public final class StarMazeSmokeTest {
         verifyBoardRiftVisual();
         verifyBoardRiftRenderer();
         verifyBoardRendererBoundaries();
+        verifyBoardCacheKey();
         verifyBoardLayerRendererCache();
         verifyBackgroundGridSpec();
         verifyBackgroundRenderer();
@@ -1629,6 +1631,17 @@ public final class StarMazeSmokeTest {
         require(renderer.cacheBuilds() == 2, "board layer should rebuild the static cache when metrics change");
         graphics.dispose();
         require(countNonTransparentPixels(image) > 1_000, "board layer should draw a visible board layer");
+    }
+
+    private static void verifyBoardCacheKey() {
+        Level level = createRiftBoardFixture();
+        BoardMetrics metrics = new BoardMetrics(10, 10, 96, 96, 32);
+        BoardCacheKey key = BoardCacheKey.from(level, metrics);
+        require(key.matches(level, metrics), "board cache key should match same level and metrics");
+        require(!key.matches(level, new BoardMetrics(10, 10, 120, 96, 32)),
+                "board cache key should reject changed metrics");
+        require(!key.matches(createRiftBoardFixture(), metrics),
+                "board cache key should reject a different level instance");
     }
 
     private static Level createRiftBoardFixture() {

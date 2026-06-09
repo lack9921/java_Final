@@ -7,8 +7,7 @@ import java.awt.image.BufferedImage;
 
 public final class BoardLayerRenderer {
     private final BoardRenderer boardRenderer = new BoardRenderer();
-    private Level cachedLevel;
-    private BoardMetrics cachedMetrics;
+    private BoardCacheKey cacheKey;
     private BufferedImage boardCache;
     private int cacheBuilds;
 
@@ -31,11 +30,10 @@ public final class BoardLayerRenderer {
     }
 
     private void ensureBoardCache(Level level, BoardMetrics metrics) {
-        if (boardCache != null && cachedLevel == level && metrics.equals(cachedMetrics)) {
+        if (boardCache != null && cacheKey != null && cacheKey.matches(level, metrics)) {
             return;
         }
-        cachedLevel = level;
-        cachedMetrics = metrics;
+        cacheKey = BoardCacheKey.from(level, metrics);
         boardCache = boardRenderer.buildStaticCache(level, metrics);
         cacheBuilds++;
     }
