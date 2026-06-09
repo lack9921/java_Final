@@ -2,13 +2,9 @@ package com.starmaze.ui;
 
 import com.starmaze.model.TileType;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 public final class BoardTileRenderer {
-    private static final Color RIFT_FILL = new Color(26, 23, 51);
-    private static final int RIFT_INSET = 2;
-    private static final int RIFT_RADIUS = 7;
     private static final int RIFT_DIAGONAL_INSET = 7;
 
     public void paint(Graphics2D g, int x, int y, TileType type, int originX, int originY, int size, int tick) {
@@ -32,10 +28,10 @@ public final class BoardTileRenderer {
     }
 
     private void paintRift(Graphics2D g, int tileX, int tileY, int px, int py, int size, int tick) {
-        g.setColor(RIFT_FILL);
-        g.fillRoundRect(px + RIFT_INSET, py + RIFT_INSET, size - RIFT_INSET * 2,
-                size - RIFT_INSET * 2, RIFT_RADIUS, RIFT_RADIUS);
         BoardRiftVisual visual = BoardRiftVisual.from(tileX, tileY, size, tick);
+        g.setColor(visual.fillColor());
+        g.fillRoundRect(px + visual.fillInset(), py + visual.fillInset(), visual.fillSize(), visual.fillSize(),
+                visual.fillRadius(), visual.fillRadius());
         g.setColor(visual.strokeColor());
         g.drawOval(px + visual.ovalInset(), py + visual.ovalInset(), visual.ovalSize(), visual.ovalSize());
         g.drawLine(px + RIFT_DIAGONAL_INSET, py + size - RIFT_DIAGONAL_INSET - 1,

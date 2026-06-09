@@ -2802,3 +2802,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 242
+
+- Expanded `BoardRiftVisual` to also own rift fill color, fill inset, fill radius, and derived fill size.
+- Slimmed `BoardTileRenderer` so all rift styling now comes from `BoardRiftVisual` before drawing rift fill, oval, and diagonal.
+- Added smoke coverage proving rift fill styling stays opaque, keeps expected inset/radius, and derives fill size from tile size.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

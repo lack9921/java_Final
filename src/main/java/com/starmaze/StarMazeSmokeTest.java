@@ -1568,6 +1568,10 @@ public final class StarMazeSmokeTest {
     private static void verifyBoardRiftVisual() {
         BoardRiftVisual visual = BoardRiftVisual.from(1, 2, 40, 17);
         BoardRiftVisual otherTick = BoardRiftVisual.from(1, 2, 40, 24);
+        require(visual.fillColor().getAlpha() == 255, "board rift visual fill should remain opaque");
+        require(visual.fillInset() == 2 && visual.fillRadius() == 7,
+                "board rift visual should keep fill inset and radius");
+        require(visual.fillSize() == 36, "board rift visual should derive fill size from tile size");
         require(visual.ovalInset() == 8, "board rift visual should scale oval inset from tile size");
         require(visual.ovalSize() == 24, "board rift visual should scale oval size from tile size");
         require(visual.strokeColor().getAlpha() > 0 && visual.strokeColor().getAlpha() <= 255,
