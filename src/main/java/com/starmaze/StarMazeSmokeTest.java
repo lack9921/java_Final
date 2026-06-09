@@ -75,6 +75,7 @@ import com.starmaze.ui.HudPhaseColorSelector;
 import com.starmaze.ui.HudRewindDot;
 import com.starmaze.ui.HudRewindRenderer;
 import com.starmaze.ui.HudRenderer;
+import com.starmaze.ui.HudRenderStep;
 import com.starmaze.ui.HudStatItem;
 import com.starmaze.ui.HudStatsRenderer;
 import com.starmaze.ui.HudStatsSpec;
@@ -205,6 +206,7 @@ public final class StarMazeSmokeTest {
         verifyHudStatsSpec();
         verifyHudStatsRenderer();
         verifyHudPanelRenderer();
+        verifyHudRenderStep();
         verifyHudRendererComposition();
         verifyCadenceConfig();
         verifyActiveEffectFactory();
@@ -854,6 +856,17 @@ public final class StarMazeSmokeTest {
         graphics.dispose();
         audio.shutdown();
         require(countNonTransparentPixels(image) > 8_000, "HUD renderer should compose panel, stats, meters, and message");
+    }
+
+    private static void verifyHudRenderStep() {
+        require(HudRenderStep.standardOrder().equals(List.of(
+                HudRenderStep.PANEL,
+                HudRenderStep.STATS,
+                HudRenderStep.PHASE_METER,
+                HudRenderStep.REWIND_CHARGES,
+                HudRenderStep.MESSAGE)), "HUD render steps should keep panel, stats, meters, charges, then message");
+        require(HudRenderStep.standardOrder().size() == HudRenderStep.values().length,
+                "HUD render step order should include every step");
     }
 
     private static void verifyCadenceConfig() {

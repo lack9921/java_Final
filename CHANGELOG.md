@@ -2730,3 +2730,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 236
+
+- Added `HudRenderStep` to name the standard HUD composition order for panel, stats, phase meter, rewind charges, and message.
+- Slimmed `HudRenderer` so it iterates named render steps before dispatching each HUD sub-renderer.
+- Added smoke coverage proving HUD render steps keep the intended order and include every step.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
