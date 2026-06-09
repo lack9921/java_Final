@@ -41,6 +41,7 @@ import com.starmaze.ui.BoardRiftRenderer;
 import com.starmaze.ui.BoardRiftVisual;
 import com.starmaze.ui.BoardStaticCacheRenderer;
 import com.starmaze.ui.BoardTileRenderer;
+import com.starmaze.ui.BoardWallVisual;
 import com.starmaze.ui.BackgroundRenderer;
 import com.starmaze.ui.EffectRenderer;
 import com.starmaze.ui.EffectRenderDispatcher;
@@ -258,6 +259,7 @@ public final class StarMazeSmokeTest {
         verifyRenderQuality();
         verifyBoardMetricsCalculator();
         verifyBoardFrameRenderer();
+        verifyBoardWallVisual();
         verifyBoardTileRenderer();
         verifyBoardStaticCacheRenderer();
         verifyBoardRiftVisual();
@@ -1516,6 +1518,18 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, 3, 0, TileType.RIFT, 10, 10, 32, 17);
         graphics.dispose();
         require(countNonTransparentPixels(image) > 500, "board tile renderer should draw floor, wall, exit, and rift tiles");
+    }
+
+    private static void verifyBoardWallVisual() {
+        BoardWallVisual visual = BoardWallVisual.fromTileSize(32);
+        require(visual.fillInset() == 1 && visual.strokeInset() == 3,
+                "board wall visual should keep fill and stroke insets");
+        require(visual.fillSize() == 30 && visual.strokeSize() == 26,
+                "board wall visual should derive fill and stroke sizes from tile size");
+        require(visual.fillRadius() > visual.strokeRadius(),
+                "board wall visual should keep stronger rounding on the fill");
+        require(visual.strokeColor().getAlpha() > 0 && visual.strokeColor().getAlpha() < 255,
+                "board wall stroke should stay translucent");
     }
 
     private static void verifyBoardStaticCacheRenderer() {

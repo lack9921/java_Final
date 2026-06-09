@@ -2778,3 +2778,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 240
+
+- Added `BoardWallVisual` to own wall tile fill/stroke colors, insets, radii, and derived draw sizes.
+- Slimmed `BoardTileRenderer` so it delegates wall styling before drawing wall fill and stroke rounded rectangles.
+- Added smoke coverage proving wall visuals derive fill/stroke sizes from tile size and keep translucent stroke styling.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
