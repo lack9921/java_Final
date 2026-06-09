@@ -102,7 +102,9 @@ import com.starmaze.ui.RenderClock;
 import com.starmaze.ui.ResultMenuContentRenderer;
 import com.starmaze.ui.RingEffectRenderer;
 import com.starmaze.ui.RingEffectStyle;
+import com.starmaze.ui.ScreenShakeOffset;
 import com.starmaze.ui.ScreenShakeRenderer;
+import com.starmaze.ui.ScreenShakeRules;
 import com.starmaze.ui.SimpleMenuContentRenderer;
 import com.starmaze.ui.StunEffectRenderer;
 import com.starmaze.ui.StunEffectStyle;
@@ -198,6 +200,7 @@ public final class StarMazeSmokeTest {
         verifyEffectProgress();
         verifyEffectRenderSpec();
         verifyEffectRenderDispatcher();
+        verifyScreenShakeRules();
         verifyScreenShakeRenderer();
         verifyEffectRendererComposition();
         verifyRingEffectStyle();
@@ -875,6 +878,25 @@ public final class StarMazeSmokeTest {
         renderer.apply(graphics, List.of(new ActiveEffect(VisualEffectType.RIFT_WARP, new Position(1, 1), 0)), 8);
         require(!graphics.getTransform().equals(before), "screen shake should translate graphics for rift or rewind effects");
         graphics.dispose();
+    }
+
+    private static void verifyScreenShakeRules() {
+        require(!ScreenShakeRules.shakesScreen(VisualEffectType.PHASE_BURST),
+                "phase burst should not shake the screen");
+        require(ScreenShakeRules.shakesScreen(VisualEffectType.RIFT_WARP),
+                "rift warp should shake the screen");
+        require(ScreenShakeRules.shakesScreen(VisualEffectType.REWIND_WAVE),
+                "rewind wave should shake the screen");
+        ScreenShakeOffset ignored = ScreenShakeRules.offset(
+                List.of(new ActiveEffect(VisualEffectType.ENEMY_STUN, new Position(1, 1), 0)), 8);
+        ScreenShakeOffset active = ScreenShakeRules.offset(
+                List.of(new ActiveEffect(VisualEffectType.RIFT_WARP, new Position(1, 1), 0)), 8);
+        ScreenShakeOffset expired = ScreenShakeRules.offset(
+                List.of(new ActiveEffect(VisualEffectType.RIFT_WARP, new Position(1, 1),
+                        -VisualConfig.EFFECT_LIFETIME_FRAMES)), 8);
+        require(!ignored.active(), "non-shaking effects should not produce screen offset");
+        require(active.active(), "active rift effect should produce screen offset");
+        require(!expired.active(), "expired rift effect should not produce screen offset");
     }
 
     private static void verifyEffectRendererComposition() {

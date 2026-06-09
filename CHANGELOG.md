@@ -2610,3 +2610,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 226
+
+- Added `ScreenShakeRules` and `ScreenShakeOffset` to own shake-trigger selection and frame-based offset calculation.
+- Slimmed `ScreenShakeRenderer` so it delegates pure shake math before applying the graphics translation.
+- Added smoke coverage proving only rift and rewind effects shake the screen, active shakes produce offsets, and expired shakes stop.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
