@@ -2646,3 +2646,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 229
+
+- Added `SimpleMenuContentLine` and `SimpleMenuContentSpec` to own the text, color, font, and baseline configuration for pause and settings menu content.
+- Slimmed `SimpleMenuContentRenderer` so it iterates content specs instead of hard-coding each title and hint line.
+- Added smoke coverage proving pause and settings content keep their expected title/hint lines and vertical ordering.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

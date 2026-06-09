@@ -108,6 +108,7 @@ import com.starmaze.ui.ScreenShakeOffset;
 import com.starmaze.ui.ScreenShakeRenderer;
 import com.starmaze.ui.ScreenShakeRules;
 import com.starmaze.ui.SimpleMenuContentRenderer;
+import com.starmaze.ui.SimpleMenuContentSpec;
 import com.starmaze.ui.StunEffectRenderer;
 import com.starmaze.ui.StunEffectStyle;
 import com.starmaze.ui.StarField;
@@ -231,6 +232,7 @@ public final class StarMazeSmokeTest {
         verifyHelpMenuContentRenderer();
         verifyResultMenuContentRenderer();
         verifyTitleMenuContentRenderer();
+        verifySimpleMenuContentSpec();
         verifySimpleMenuContentRenderer();
         verifyRenderClock();
         verifyGameLoopController();
@@ -1270,6 +1272,23 @@ public final class StarMazeSmokeTest {
         renderer.paintSettings(graphics, panel);
         graphics.dispose();
         require(countVisibleSamplePixels(image) > 25, "simple menu content renderer should draw visible text");
+    }
+
+    private static void verifySimpleMenuContentSpec() {
+        require(SimpleMenuContentSpec.PAUSE.lines().size() == 2,
+                "pause simple menu content should keep title and hint lines");
+        require(SimpleMenuContentSpec.SETTINGS.lines().size() == 2,
+                "settings simple menu content should keep title and hint lines");
+        require(SimpleMenuContentSpec.PAUSE.lines().get(0).text().equals(MenuText.PAUSED),
+                "pause simple menu title should use paused text");
+        require(SimpleMenuContentSpec.SETTINGS.lines().get(0).text().equals(MenuText.SETTINGS_TITLE),
+                "settings simple menu title should use settings text");
+        require(SimpleMenuContentSpec.PAUSE.lines().get(0).baselineOffset()
+                        < SimpleMenuContentSpec.PAUSE.lines().get(1).baselineOffset(),
+                "pause simple menu hint should sit below title");
+        require(SimpleMenuContentSpec.SETTINGS.lines().get(0).baselineOffset()
+                        < SimpleMenuContentSpec.SETTINGS.lines().get(1).baselineOffset(),
+                "settings simple menu hint should sit below title");
     }
 
     private static void verifyMenuMetrics() {
