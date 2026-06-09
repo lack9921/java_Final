@@ -2790,3 +2790,15 @@ Validation:
 
 - `.\build.ps1`
 - `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`
+
+## 2026-06-09 - Optimization Loop 241
+
+- Added `BoardFloorVisual` to own floor tile fill and grid colors.
+- Slimmed `BoardTileRenderer` so it delegates floor styling before drawing floor fill and grid stroke.
+- Added smoke coverage proving floor fill remains opaque, grid stroke remains translucent, and both colors stay distinct.
+- Rebuilt the release jar and reran the jar-contained smoke test.
+
+Validation:
+
+- `.\build.ps1`
+- `java "-Djava.awt.headless=true" -cp dist\StarMaze.jar com.starmaze.StarMazeSmokeTest`

@@ -34,6 +34,7 @@ import com.starmaze.ui.ActiveEffectList;
 import com.starmaze.ui.BackgroundGridSpec;
 import com.starmaze.ui.BoardMetrics;
 import com.starmaze.ui.BoardMetricsCalculator;
+import com.starmaze.ui.BoardFloorVisual;
 import com.starmaze.ui.BoardFrameRenderer;
 import com.starmaze.ui.BoardLayerRenderer;
 import com.starmaze.ui.BoardRenderer;
@@ -259,6 +260,7 @@ public final class StarMazeSmokeTest {
         verifyRenderQuality();
         verifyBoardMetricsCalculator();
         verifyBoardFrameRenderer();
+        verifyBoardFloorVisual();
         verifyBoardWallVisual();
         verifyBoardTileRenderer();
         verifyBoardStaticCacheRenderer();
@@ -1518,6 +1520,15 @@ public final class StarMazeSmokeTest {
         renderer.paint(graphics, 3, 0, TileType.RIFT, 10, 10, 32, 17);
         graphics.dispose();
         require(countNonTransparentPixels(image) > 500, "board tile renderer should draw floor, wall, exit, and rift tiles");
+    }
+
+    private static void verifyBoardFloorVisual() {
+        BoardFloorVisual visual = BoardFloorVisual.standard();
+        require(visual.fillColor().getAlpha() == 255, "board floor fill should remain opaque");
+        require(visual.gridColor().getAlpha() > 0 && visual.gridColor().getAlpha() < 255,
+                "board floor grid should remain translucent");
+        require(!visual.fillColor().equals(visual.gridColor()),
+                "board floor fill and grid colors should stay distinct");
     }
 
     private static void verifyBoardWallVisual() {

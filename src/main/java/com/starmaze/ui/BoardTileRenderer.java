@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 
 public final class BoardTileRenderer {
     private static final Color RIFT_FILL = new Color(26, 23, 51);
-    private static final Color FLOOR_FILL = new Color(14, 23, 37);
-    private static final Color FLOOR_GRID = new Color(52, 75, 93, 65);
     private static final int RIFT_INSET = 2;
     private static final int RIFT_RADIUS = 7;
     private static final int RIFT_DIAGONAL_INSET = 7;
@@ -45,9 +43,10 @@ public final class BoardTileRenderer {
     }
 
     private void paintFloor(Graphics2D g, int px, int py, int size) {
-        g.setColor(FLOOR_FILL);
+        BoardFloorVisual visual = BoardFloorVisual.standard();
+        g.setColor(visual.fillColor());
         g.fillRect(px, py, size, size);
-        g.setColor(FLOOR_GRID);
+        g.setColor(visual.gridColor());
         g.drawRect(px, py, size, size);
     }
 }
